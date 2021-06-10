@@ -97,6 +97,8 @@ class MainActivity : AppCompatActivity() {
                 pickColor!!.setBackgroundColor(lastSelectedColor)
                 pickImage!!.setBackgroundColor(lastSelectedColor)
                 imageView!!.setColorFilter(lastSelectedColor)
+                transparencySeekBar!!.thumbTintList = ColorStateList.valueOf(lastSelectedColor)
+                transparencySeekBar!!.trackActiveTintList = ColorStateList.valueOf(lastSelectedColor)
                 Toast.makeText(this,"Color has been applied!",Toast.LENGTH_SHORT).show()
                 d.cancel()
                 d.dismiss()
