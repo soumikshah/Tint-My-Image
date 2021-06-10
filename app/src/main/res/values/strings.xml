@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tint My Image</string>
+    <string name="background_image_transparency">Image Transparency</string>
+    <string name="pick_your_color_for_the_tint">Pick Your Color For The Tint</string>
+    <string name="pick_an_image">Pick an image</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="choose_color">Choose Color</string>
+    <string name="selected_this_color">You selected this color!</string>
+</resources>
