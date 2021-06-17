@@ -29,6 +29,7 @@
                 android:layout_marginEnd="25dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/bed"
+                android:contentDescription="@string/wallpaper_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
             android:text="@string/pick_an_image"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +84,7 @@
             android:layout_marginEnd="87dp"
             android:padding="5dp"
             android:text="@string/pick_your_color_for_the_tint"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transparency_seekbar" />

@@ -4,7 +4,10 @@
     <string name="pick_your_color_for_the_tint">Pick Your Color For The Tint</string>
     <string name="pick_an_image">Pick an image</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">Ok</string>
     <string name="choose_color">Choose Color</string>
     <string name="selected_this_color">You selected this color!</string>
+    <string name="wallpaper_image">Wallpaper image</string>
+    <string name="share">Share</string>
+    <string name="settings">Settings</string>
+    <string name="save">Save</string>
 </resources>
