@@ -34,6 +34,7 @@ import com.google.android.material.slider.Slider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.lang.Exception
 import java.util.*
 
 
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 .createIntent { intent -> startForBackgroundImageResult.launch(intent) }
         }
 
-        transparencySeekBar!!.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+        transparencySeekBar!!.addOnChangeListener(Slider.OnChangeListener { slider, _, _ ->
             imageView!!.imageAlpha = slider.value.toInt()
         })
 
@@ -122,11 +123,11 @@ class MainActivity : AppCompatActivity() {
                 builder.setTitle("Press save button on the top!!!")
                 builder.setMessage("If you want to save this tinted image press save button and " +
                         "you'll need to accept permission to save the image to your phone.")
-                builder.setPositiveButton("Ok") { dialogInterface, i ->
+                builder.setPositiveButton("Ok") { dialogInterface, _ ->
                     dialogInterface.cancel()
                     dialogInterface.dismiss()
                 }
-                builder.setNegativeButton("Not Interested") { dialogInterface, i ->
+                builder.setNegativeButton("Not Interested") { dialogInterface, _ ->
                     dialogInterface.cancel()
                     dialogInterface.dismiss()
                 }
@@ -176,7 +177,15 @@ class MainActivity : AppCompatActivity() {
            outFile!!.delete()
        }
        isStoragePermissionGranted()
-       val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+       try{
+           val outStream = FileOutputStream(outFile)
+           bitmap.toBitmap().compress(Bitmap.CompressFormat.JPEG,100,outStream)
+           outStream.flush()
+           outStream.close()
+       }catch (ex:Exception){
+           ex.printStackTrace()
+       }
+       val fos: OutputStream? =if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
            val resolver = contentResolver
            val contentValues = ContentValues()
            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, outFile!!.absolutePath.toString() + ".jpg")
@@ -188,9 +197,7 @@ class MainActivity : AppCompatActivity() {
             shareImageLogic(imageUri!!)
            resolver.openOutputStream(Objects.requireNonNull(imageUri)!!)
        } else {
-           val imagesDir =
-               Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                   .toString()
+           shareImageLogic(Uri.fromFile(outFile))
            FileOutputStream(outFile)
 
        }
@@ -211,15 +218,19 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(Intent.createChooser(intent,null))
         }else{
-            //Todo
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "image/jpeg"
+                putExtra(Intent.EXTRA_TITLE,"Tinted Image")
+                putExtra(Intent.EXTRA_STREAM, imageUri)
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+            startActivity(Intent.createChooser(intent, "null"))
         }
     }
 
     private fun isStoragePermissionGranted(): Boolean {
         return if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.v("Tint", "Permission is granted")
                 true
             } else {
